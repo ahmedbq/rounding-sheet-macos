@@ -5,11 +5,10 @@ import AppKit
 struct Patient: Identifiable {
     let id = UUID()
     let baseName: String
-    let unit: String
     let room: String
     let bed: String
     let los: Double
-    let physician: String
+    let consultingPhysician: String
 
     var isMarkedLOS: Bool {
         los >= 1 && los <= 3.3
@@ -26,22 +25,20 @@ enum MarkingMode: String, CaseIterable, Identifiable {
     case stars = "Stars (***)"
     case highlight = "Row Highlight"
     case none = "None"
-
     var id: String { rawValue }
 }
 
-// MARK: - Sort Column
+// MARK: - Sorting
 enum SortColumn: CaseIterable {
-    case name, unit, room, bed, los, physician
+    case name, room, bed, los, consulting
 
     var title: String {
         switch self {
         case .name: return "Name"
-        case .unit: return "Unit"
         case .room: return "Room"
         case .bed: return "Bed"
         case .los: return "LOS"
-        case .physician: return "Consulting Physician"
+        case .consulting: return "Consulting Physician"
         }
     }
 }
@@ -55,28 +52,21 @@ struct SortKey: Identifiable {
 // MARK: - Content View
 struct ContentView: View {
 
-    @State private var inputText: String = """
-    # Example (fictional)
-    ZAFIECKI, JOHN M NURS N TR N02 D 79 years Male 17.7 Days Raval MD, Sumul
-    GARTENSTEIN, IRVIN D NURS N TR N29 W 63 years Male 13.8 Days Mojarres MD, Richard
-    """
-
+    @State private var inputText: String = ""
     @State private var patients: [Patient] = []
     @State private var markingMode: MarkingMode = .stars
-    @State private var sortKeys: [SortKey] = Self.defaultSortKeys
 
+    // Default sort: LOS → Room → Bed
     static let defaultSortKeys: [SortKey] = [
         SortKey(column: .los, ascending: true),
-        SortKey(column: .unit, ascending: true),
         SortKey(column: .room, ascending: true),
         SortKey(column: .bed, ascending: true)
     ]
 
+    @State private var sortKeys: [SortKey] = defaultSortKeys
+
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-
-            Text("Paste Patient List")
-                .font(.headline)
 
             TextEditor(text: $inputText)
                 .font(.system(.body, design: .monospaced))
@@ -85,14 +75,14 @@ struct ContentView: View {
                 .onChange(of: inputText) { _ in generate() }
 
             HStack {
-                Button("Paste from Clipboard") {
+                Button("Paste") {
                     if let s = NSPasteboard.general.string(forType: .string) {
                         inputText = s
                     }
                 }
 
                 Button("Copy Table") { copyTable() }
-                Button("Print Table") { printTable() }
+                Button("Print") { printTable() }
 
                 Button("Reset Sort") {
                     sortKeys = Self.defaultSortKeys
@@ -103,9 +93,7 @@ struct ContentView: View {
                 Spacer()
 
                 Picker("Marking", selection: $markingMode) {
-                    ForEach(MarkingMode.allCases) { mode in
-                        Text(mode.rawValue).tag(mode)
-                    }
+                    ForEach(MarkingMode.allCases) { Text($0.rawValue).tag($0) }
                 }
                 .pickerStyle(.segmented)
                 .frame(width: 320)
@@ -115,44 +103,54 @@ struct ContentView: View {
             Divider()
             headerRow()
 
-            List(Array(patients.enumerated()), id: \.element.id) { index, patient in
-                dataRow(patient, index: index + 1)
-                    .listRowBackground(rowBackground(for: patient))
+            List(Array(patients.enumerated()), id: \.element.id) { index, p in
+                dataRow(p, index: index + 1)
+                    .listRowBackground(
+                        markingMode == .highlight && p.isMarkedLOS
+                        ? Color.green.opacity(0.25)
+                        : .clear
+                    )
             }
             .listStyle(.inset)
         }
         .padding()
-        .onAppear { generate() }
     }
 
     // MARK: - Header / Rows
 
     func headerRow() -> some View {
         HStack {
-            headerText("#", 40)
-            header(.name, 220)
-            header(.unit, 70)
-            header(.room, 70)
-            header(.bed, 50)
-            header(.los, 60)
-            header(.physician, nil)
+            fixedHeader("#", 40)
+            sortableHeader(.name, 220)
+            sortableHeader(.room, 60)
+            sortableHeader(.bed, 50)
+            sortableHeader(.los, 50)
+            sortableHeader(.consulting, nil)
         }
         .font(.system(.caption, design: .monospaced))
     }
 
-    func header(_ column: SortColumn, _ width: CGFloat?) -> some View {
+    func fixedHeader(_ text: String, _ width: CGFloat) -> some View {
+        Text(text)
+            .frame(width: width, alignment: .leading)
+            .fontWeight(.bold)
+    }
+
+    func sortableHeader(_ column: SortColumn, _ width: CGFloat?) -> some View {
         Button {
             toggleSort(column)
             generate()
         } label: {
             HStack(spacing: 4) {
                 Text(column.title)
+
                 if let idx = sortKeys.firstIndex(where: { $0.column == column }) {
                     Text("\(idx + 1)")
                         .font(.system(size: 9, weight: .bold, design: .monospaced))
                         .padding(.horizontal, 3)
-                        .background(Color.gray.opacity(0.15))
+                        .background(Color.gray.opacity(0.2))
                         .cornerRadius(3)
+
                     Image(systemName: sortKeys[idx].ascending
                           ? "arrowtriangle.up.fill"
                           : "arrowtriangle.down.fill")
@@ -165,19 +163,14 @@ struct ContentView: View {
         .fontWeight(.bold)
     }
 
-    func headerText(_ text: String, _ width: CGFloat) -> some View {
-        Text(text).frame(width: width, alignment: .leading).fontWeight(.bold)
-    }
-
     func dataRow(_ p: Patient, index: Int) -> some View {
         HStack {
             cell(String(index), 40)
             cell(displayName(p), 220)
-            cell(p.unit, 70)
-            cell(p.room, 70)
+            cell(p.room, 60)
             cell(p.bed, 50)
-            cell(String(p.los), 60)
-            cell(p.physician, nil)
+            cell(String(p.los), 50)
+            cell(p.consultingPhysician, nil)
         }
         .font(.system(.body, design: .monospaced))
     }
@@ -186,16 +179,8 @@ struct ContentView: View {
         Text(text).frame(width: width, alignment: .leading)
     }
 
-    // MARK: - Display
-
     func displayName(_ p: Patient) -> String {
         markingMode == .stars && p.isMarkedLOS ? "*** \(p.baseName)" : p.baseName
-    }
-
-    func rowBackground(for p: Patient) -> Color {
-        markingMode == .highlight && p.isMarkedLOS
-            ? Color.green.opacity(0.25)
-            : .clear
     }
 
     // MARK: - Sorting
@@ -221,27 +206,29 @@ struct ContentView: View {
                 switch key.column {
                 case .los:
                     if a.los != b.los { return key.ascending ? a.los < b.los : a.los > b.los }
-                case .unit:
-                    if a.unit != b.unit { return key.ascending ? a.unit < b.unit : a.unit > b.unit }
                 case .room:
                     if a.roomNumber != b.roomNumber { return key.ascending ? a.roomNumber < b.roomNumber : a.roomNumber > b.roomNumber }
                 case .bed:
                     if a.bed != b.bed { return key.ascending ? a.bed < b.bed : a.bed > b.bed }
                 case .name:
                     if a.baseName != b.baseName { return key.ascending ? a.baseName < b.baseName : a.baseName > b.baseName }
-                case .physician:
-                    if a.physician != b.physician { return key.ascending ? a.physician < b.physician : a.physician > b.physician }
+                case .consulting:
+                    if a.consultingPhysician != b.consultingPhysician {
+                        return key.ascending
+                            ? a.consultingPhysician < b.consultingPhysician
+                            : a.consultingPhysician > b.consultingPhysician
+                    }
                 }
             }
             return false
         }
     }
 
-    // MARK: - Parsing (CORRECT Bed logic)
+    // MARK: - Parsing (simple, reliable)
 
     func parseLine(_ line: String) -> Patient? {
         let t = line.trimmingCharacters(in: .whitespaces)
-        if t.isEmpty || t.hasPrefix("#") { return nil }
+        guard !t.isEmpty else { return nil }
 
         guard
             let losRange = t.range(of: #"(\d+\.?\d*)\s*Days"#, options: .regularExpression),
@@ -250,112 +237,58 @@ struct ContentView: View {
 
         let tokens = t.split(separator: " ").map(String.init)
 
-        guard let roomIndex = tokens.firstIndex(where: {
-            $0.range(of: #"^N\d+$"#, options: .regularExpression) != nil
+        guard let roomIdx = tokens.firstIndex(where: {
+            $0.range(of: #"^[A-Z]\d+$"#, options: .regularExpression) != nil
         }) else { return nil }
 
-        let room = tokens[roomIndex]
-        let bed = (roomIndex + 1 < tokens.count) ? tokens[roomIndex + 1] : ""
+        let room = tokens[roomIdx]
+        let bed = roomIdx + 1 < tokens.count ? tokens[roomIdx + 1] : ""
 
         let baseName =
             t.components(separatedBy: "NURS")
                 .first?
                 .trimmingCharacters(in: .whitespaces) ?? ""
 
-        let physician =
+        let consulting =
             t.components(separatedBy: "Days")
                 .last?
                 .trimmingCharacters(in: .whitespaces) ?? ""
 
         return Patient(
             baseName: baseName,
-            unit: "NURS",
             room: room,
             bed: bed,
             los: los,
-            physician: physician
+            consultingPhysician: consulting
         )
     }
 
     // MARK: - Copy / Print
 
     func copyTable() {
-        var text = "#\tName\tUnit\tRoom\tBed\tLOS\tConsulting Physician\n"
-        for (idx, p) in patients.enumerated() {
-            text += "\(idx + 1)\t\(displayName(p))\t\(p.unit)\t\(p.room)\t\(p.bed)\t\(p.los)\t\(p.physician)\n"
+        var out = "#\tName\tRoom\tBed\tLOS\tConsulting Physician\n"
+        for (i, p) in patients.enumerated() {
+            out += "\(i+1)\t\(displayName(p))\t\(p.room)\t\(p.bed)\t\(p.los)\t\(p.consultingPhysician)\n"
         }
         NSPasteboard.general.clearContents()
-        NSPasteboard.general.setString(text, forType: .string)
+        NSPasteboard.general.setString(out, forType: .string)
     }
 
     func printTable() {
-        let view = PrintableTableView(patients: patients,
-                                     markingMode: markingMode,
-                                     displayName: displayName)
+        let tv = NSTextView(frame: NSRect(x: 0, y: 0, width: 900, height: 1200))
+        tv.font = NSFont.monospacedSystemFont(ofSize: 10, weight: .regular)
+        tv.isEditable = false
 
-        let printInfo = NSPrintInfo.shared
-        printInfo.orientation = .landscape
-        printInfo.horizontalPagination = .fit
-
-        NSPrintOperation(view: view, printInfo: printInfo).run()
-    }
-}
-
-// MARK: - Printable View
-final class PrintableTableView: NSView {
-
-    let patients: [Patient]
-    let markingMode: MarkingMode
-    let displayName: (Patient) -> String
-
-    private let rowHeight: CGFloat = 20
-    private let font = NSFont.monospacedSystemFont(ofSize: 10, weight: .regular)
-    private let colWidths: [CGFloat] = [40, 220, 60, 60, 50, 50, 320]
-    private let leftPadding: CGFloat = 10
-
-    init(patients: [Patient], markingMode: MarkingMode, displayName: @escaping (Patient) -> String) {
-        self.patients = patients
-        self.markingMode = markingMode
-        self.displayName = displayName
-
-        let width = colWidths.reduce(leftPadding, +) + 10
-        let height = CGFloat(patients.count + 2) * rowHeight
-        super.init(frame: NSRect(x: 0, y: 0, width: width, height: height))
-    }
-
-    required init?(coder: NSCoder) { nil }
-
-    override func draw(_ dirtyRect: NSRect) {
-        guard let ctx = NSGraphicsContext.current?.cgContext else { return }
-        let attrs: [NSAttributedString.Key: Any] = [.font: font]
-
-        var y = bounds.height - rowHeight
-
-        func drawRow(_ values: [String], bg: NSColor?) {
-            if let bg = bg {
-                ctx.setFillColor(bg.cgColor)
-                ctx.fill(CGRect(x: 0, y: y, width: bounds.width, height: rowHeight))
-            }
-
-            var x = leftPadding
-            for (i, v) in values.enumerated() {
-                (v as NSString).draw(at: CGPoint(x: x, y: y + 4), withAttributes: attrs)
-                x += colWidths[min(i, colWidths.count - 1)]
-            }
-            y -= rowHeight
+        var text = "#\tName\tRoom\tBed\tLOS\tConsulting Physician\n"
+        for (i, p) in patients.enumerated() {
+            text += "\(i+1)\t\(displayName(p))\t\(p.room)\t\(p.bed)\t\(p.los)\t\(p.consultingPhysician)\n"
         }
+        tv.string = text
 
-        drawRow(["#", "Name", "Unit", "Room", "Bed", "LOS", "Consulting Physician"], bg: nil)
+        let info = NSPrintInfo.shared
+        info.orientation = .landscape
+        info.horizontalPagination = .fit
 
-        for (idx, p) in patients.enumerated() {
-            let bg = (markingMode == .highlight && p.isMarkedLOS)
-                ? NSColor.systemGreen.withAlphaComponent(0.25)
-                : nil
-
-            drawRow(
-                [String(idx + 1), displayName(p), p.unit, p.room, p.bed, String(p.los), p.physician],
-                bg: bg
-            )
-        }
+        NSPrintOperation(view: tv, printInfo: info).run()
     }
 }
