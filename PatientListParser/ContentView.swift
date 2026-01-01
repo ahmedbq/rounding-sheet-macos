@@ -8,7 +8,7 @@ struct Patient: Identifiable {
     let room: String
     let bed: String
     let los: Double
-    let consultingPhysician: String
+    let physiciansAndNotes: String
 
     var isMarkedLOS: Bool {
         los >= 1 && los <= 3.3
@@ -30,7 +30,7 @@ enum MarkingMode: String, CaseIterable, Identifiable {
 
 // MARK: - Sorting
 enum SortColumn: CaseIterable {
-    case name, room, bed, los, consulting
+    case name, room, bed, los, physicians
 
     var title: String {
         switch self {
@@ -38,7 +38,7 @@ enum SortColumn: CaseIterable {
         case .room: return "Room"
         case .bed: return "Bed"
         case .los: return "LOS"
-        case .consulting: return "Consulting Physician"
+        case .physicians: return "Physicians + Notes"
         }
     }
 }
@@ -52,11 +52,15 @@ struct SortKey: Identifiable {
 // MARK: - Content View
 struct ContentView: View {
 
-    @State private var inputText: String = ""
+    @State private var inputText: String = """
+    # Example input (dummy data)
+    DOE, JANE A NURS N TR N03 D 72 years Female 123456789  0.8 Days Smith MD, John Alpha Note Here
+    SMITH, ROBERT B NURS S TR S15 W 65 years Male 987654321  1.6 Days Adams DO, Mary Beta Program Note
+    BROWN, LINDA C 230 D 79 years Female 555444333 12.9 Days Shah MD, Shilpan H Raval MD, Sumul MTO Mult TR No Brain/SCN
+    """
     @State private var patients: [Patient] = []
     @State private var markingMode: MarkingMode = .stars
 
-    // Default sort: LOS → Room → Bed
     static let defaultSortKeys: [SortKey] = [
         SortKey(column: .los, ascending: true),
         SortKey(column: .room, ascending: true),
@@ -114,6 +118,9 @@ struct ContentView: View {
             .listStyle(.inset)
         }
         .padding()
+        .onAppear {
+            generate()
+        }
     }
 
     // MARK: - Header / Rows
@@ -125,7 +132,7 @@ struct ContentView: View {
             sortableHeader(.room, 60)
             sortableHeader(.bed, 50)
             sortableHeader(.los, 50)
-            sortableHeader(.consulting, nil)
+            sortableHeader(.physicians, nil)
         }
         .font(.system(.caption, design: .monospaced))
     }
@@ -170,7 +177,7 @@ struct ContentView: View {
             cell(p.room, 60)
             cell(p.bed, 50)
             cell(String(p.los), 50)
-            cell(p.consultingPhysician, nil)
+            cell(p.physiciansAndNotes, nil)
         }
         .font(.system(.body, design: .monospaced))
     }
@@ -212,11 +219,11 @@ struct ContentView: View {
                     if a.bed != b.bed { return key.ascending ? a.bed < b.bed : a.bed > b.bed }
                 case .name:
                     if a.baseName != b.baseName { return key.ascending ? a.baseName < b.baseName : a.baseName > b.baseName }
-                case .consulting:
-                    if a.consultingPhysician != b.consultingPhysician {
+                case .physicians:
+                    if a.physiciansAndNotes != b.physiciansAndNotes {
                         return key.ascending
-                            ? a.consultingPhysician < b.consultingPhysician
-                            : a.consultingPhysician > b.consultingPhysician
+                            ? a.physiciansAndNotes < b.physiciansAndNotes
+                            : a.physiciansAndNotes > b.physiciansAndNotes
                     }
                 }
             }
@@ -224,7 +231,7 @@ struct ContentView: View {
         }
     }
 
-    // MARK: - Parsing (simple, reliable)
+    // MARK: - Parsing (OLD + NEW formats)
 
     func parseLine(_ line: String) -> Patient? {
         let t = line.trimmingCharacters(in: .whitespaces)
@@ -237,19 +244,24 @@ struct ContentView: View {
 
         let tokens = t.split(separator: " ").map(String.init)
 
+        // Room: N03 / W18 OR numeric 230
         guard let roomIdx = tokens.firstIndex(where: {
-            $0.range(of: #"^[A-Z]\d+$"#, options: .regularExpression) != nil
+            $0.range(of: #"^[A-Z]\d+$"#, options: .regularExpression) != nil ||
+            $0.range(of: #"^\d{3}$"#, options: .regularExpression) != nil
         }) else { return nil }
 
         let room = tokens[roomIdx]
         let bed = roomIdx + 1 < tokens.count ? tokens[roomIdx + 1] : ""
 
-        let baseName =
-            t.components(separatedBy: "NURS")
-                .first?
-                .trimmingCharacters(in: .whitespaces) ?? ""
+        // Name:
+        // - Old format: stop at NURS
+        // - New format: everything before room
+        let rawName = tokens[..<roomIdx].joined(separator: " ")
+        let baseName = rawName.components(separatedBy: "NURS").first?
+            .trimmingCharacters(in: .whitespaces) ?? rawName
 
-        let consulting =
+        // Everything after Days = Physicians + Notes
+        let physiciansAndNotes =
             t.components(separatedBy: "Days")
                 .last?
                 .trimmingCharacters(in: .whitespaces) ?? ""
@@ -259,36 +271,105 @@ struct ContentView: View {
             room: room,
             bed: bed,
             los: los,
-            consultingPhysician: consulting
+            physiciansAndNotes: physiciansAndNotes
         )
     }
 
     // MARK: - Copy / Print
 
     func copyTable() {
-        var out = "#\tName\tRoom\tBed\tLOS\tConsulting Physician\n"
+        var out = "#\tName\tRoom\tBed\tLOS\tPhysicians + Notes\n"
         for (i, p) in patients.enumerated() {
-            out += "\(i+1)\t\(displayName(p))\t\(p.room)\t\(p.bed)\t\(p.los)\t\(p.consultingPhysician)\n"
+            out += "\(i+1)\t\(displayName(p))\t\(p.room)\t\(p.bed)\t\(p.los)\t\(p.physiciansAndNotes)\n"
         }
         NSPasteboard.general.clearContents()
         NSPasteboard.general.setString(out, forType: .string)
     }
 
     func printTable() {
-        let tv = NSTextView(frame: NSRect(x: 0, y: 0, width: 900, height: 1200))
-        tv.font = NSFont.monospacedSystemFont(ofSize: 10, weight: .regular)
-        tv.isEditable = false
+        let view = PrintableTableView(
+            patients: patients,
+            markingMode: markingMode
+        )
 
-        var text = "#\tName\tRoom\tBed\tLOS\tConsulting Physician\n"
-        for (i, p) in patients.enumerated() {
-            text += "\(i+1)\t\(displayName(p))\t\(p.room)\t\(p.bed)\t\(p.los)\t\(p.consultingPhysician)\n"
-        }
-        tv.string = text
+        let printInfo = NSPrintInfo.shared
+        printInfo.orientation = .landscape
+        printInfo.horizontalPagination = .fit
+        printInfo.verticalPagination = .automatic
 
-        let info = NSPrintInfo.shared
-        info.orientation = .landscape
-        info.horizontalPagination = .fit
-
-        NSPrintOperation(view: tv, printInfo: info).run()
+        NSPrintOperation(view: view, printInfo: printInfo).run()
     }
+    
+    final class PrintableTableView: NSView {
+
+        let patients: [Patient]
+        let markingMode: MarkingMode
+
+        private let rowHeight: CGFloat = 20
+        private let font = NSFont.monospacedSystemFont(ofSize: 10, weight: .regular)
+
+        // Column widths must match your table
+        private let colWidths: [CGFloat] = [
+            40,   // #
+            220,  // Name
+            60,   // Room
+            50,   // Bed
+            50,   // LOS
+            360   // Physicians + Notes
+        ]
+
+        init(patients: [Patient], markingMode: MarkingMode) {
+            self.patients = patients
+            self.markingMode = markingMode
+
+            let width = colWidths.reduce(0, +) + 20
+            let height = CGFloat(patients.count + 2) * rowHeight
+            super.init(frame: NSRect(x: 0, y: 0, width: width, height: height))
+        }
+
+        required init?(coder: NSCoder) { nil }
+
+        override func draw(_ dirtyRect: NSRect) {
+            guard let ctx = NSGraphicsContext.current?.cgContext else { return }
+
+            let attrs: [NSAttributedString.Key: Any] = [.font: font]
+            var y = bounds.height - rowHeight
+
+            func drawRow(_ values: [String], highlight: Bool) {
+                if highlight {
+                    ctx.setFillColor(NSColor.systemGreen.withAlphaComponent(0.25).cgColor)
+                    ctx.fill(CGRect(x: 0, y: y, width: bounds.width, height: rowHeight))
+                }
+
+                var x: CGFloat = 10
+                for (i, v) in values.enumerated() {
+                    (v as NSString).draw(at: CGPoint(x: x, y: y + 4), withAttributes: attrs)
+                    x += colWidths[i]
+                }
+                y -= rowHeight
+            }
+
+            // Header
+            drawRow(
+                ["#", "Name", "Room", "Bed", "LOS", "Physicians + Notes"],
+                highlight: false
+            )
+
+            // Rows
+            for (idx, p) in patients.enumerated() {
+                drawRow(
+                    [
+                        "\(idx + 1)",
+                        p.baseName,
+                        p.room,
+                        p.bed,
+                        "\(p.los)",
+                        p.physiciansAndNotes
+                    ],
+                    highlight: markingMode == .highlight && p.isMarkedLOS
+                )
+            }
+        }
+    }
+
 }
