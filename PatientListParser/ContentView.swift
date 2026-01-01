@@ -18,6 +18,12 @@ struct Patient: Identifiable {
         let digits = room.drop { !$0.isNumber }
         return Int(digits) ?? 0
     }
+    
+    var roomPrefixAndNumber: (String, Int) {
+        let prefix = room.prefix { $0.isLetter }
+        let number = Int(room.drop { !$0.isNumber }) ?? 0
+        return (String(prefix), number)
+    }
 }
 
 // MARK: - Marking Mode
@@ -60,9 +66,9 @@ struct ContentView: View {
     """
     @State private var patients: [Patient] = []
     @State private var markingMode: MarkingMode = .stars
+    @State private var prioritizeLowLOS: Bool = true
 
     static let defaultSortKeys: [SortKey] = [
-        SortKey(column: .los, ascending: true),
         SortKey(column: .room, ascending: true),
         SortKey(column: .bed, ascending: true)
     ]
@@ -80,10 +86,37 @@ struct ContentView: View {
 
             HStack {
                 Button("Paste") {
-                    if let s = NSPasteboard.general.string(forType: .string) {
-                        inputText = s
+                    let pb = NSPasteboard.general
+
+                    if let str = pb.string(forType: .string) {
+                        inputText = str
+                        return
+                    }
+
+                    if let rtfData = pb.data(forType: .rtf),
+                       let attr = try? NSAttributedString(
+                           data: rtfData,
+                           options: [.documentType: NSAttributedString.DocumentType.rtf],
+                           documentAttributes: nil
+                       ) {
+                        inputText = attr.string
+                        return
+                    }
+
+                    if let htmlData = pb.data(forType: .html),
+                       let attr = try? NSAttributedString(
+                           data: htmlData,
+                           options: [.documentType: NSAttributedString.DocumentType.html],
+                           documentAttributes: nil
+                       ) {
+                        inputText = attr.string
                     }
                 }
+                
+                Toggle("Prioritize LOS < 1.0", isOn: $prioritizeLowLOS)
+                    .toggleStyle(.checkbox)
+                    .onChange(of: prioritizeLowLOS) { _ in generate() }
+
 
                 Button("Copy Table") { copyTable() }
                 Button("Print") { printTable() }
@@ -208,28 +241,48 @@ struct ContentView: View {
             .map(String.init)
             .compactMap(parseLine)
 
-        patients = parsed.sorted { a, b in
-            for key in sortKeys {
-                switch key.column {
-                case .los:
-                    if a.los != b.los { return key.ascending ? a.los < b.los : a.los > b.los }
-                case .room:
-                    if a.roomNumber != b.roomNumber { return key.ascending ? a.roomNumber < b.roomNumber : a.roomNumber > b.roomNumber }
-                case .bed:
-                    if a.bed != b.bed { return key.ascending ? a.bed < b.bed : a.bed > b.bed }
-                case .name:
-                    if a.baseName != b.baseName { return key.ascending ? a.baseName < b.baseName : a.baseName > b.baseName }
-                case .physicians:
-                    if a.physiciansAndNotes != b.physiciansAndNotes {
-                        return key.ascending
-                            ? a.physiciansAndNotes < b.physiciansAndNotes
-                            : a.physiciansAndNotes > b.physiciansAndNotes
+        func sorted(_ list: [Patient]) -> [Patient] {
+            list.sorted { a, b in
+                for key in sortKeys {
+                    switch key.column {
+                    case .los:
+                        if a.los != b.los {
+                            return key.ascending ? a.los < b.los : a.los > b.los
+                        }
+                    case .room:
+                        let (ap, an) = a.roomPrefixAndNumber
+                        let (bp, bn) = b.roomPrefixAndNumber
+                        if ap != bp { return key.ascending ? ap < bp : ap > bp }
+                        if an != bn { return key.ascending ? an < bn : an > bn }
+                    case .bed:
+                        if a.bed != b.bed {
+                            return key.ascending ? a.bed < b.bed : a.bed > b.bed
+                        }
+                    case .name:
+                        if a.baseName != b.baseName {
+                            return key.ascending ? a.baseName < b.baseName : a.baseName > b.baseName
+                        }
+                    case .physicians:
+                        if a.physiciansAndNotes != b.physiciansAndNotes {
+                            return key.ascending
+                                ? a.physiciansAndNotes < b.physiciansAndNotes
+                                : a.physiciansAndNotes > b.physiciansAndNotes
+                        }
                     }
                 }
+                return false
             }
-            return false
+        }
+
+        if prioritizeLowLOS {
+            let low = parsed.filter { $0.los < 1.0 }
+            let rest = parsed.filter { $0.los >= 1.0 }
+            patients = sorted(low) + sorted(rest)
+        } else {
+            patients = sorted(parsed)
         }
     }
+
 
     // MARK: - Parsing (OLD + NEW formats)
 
