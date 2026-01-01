@@ -1,0 +1,583 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		E2F975CA2F062BCB006FCEFD /* PatientListParserApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F975C92F062BCB006FCEFD /* PatientListParserApp.swift */; };
+		E2F975CC2F062BCB006FCEFD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F975CB2F062BCB006FCEFD /* ContentView.swift */; };
+		E2F975CE2F062BCC006FCEFD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2F975CD2F062BCC006FCEFD /* Assets.xcassets */; };
+		E2F975D12F062BCC006FCEFD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2F975D02F062BCC006FCEFD /* Preview Assets.xcassets */; };
+		E2F975DC2F062BCD006FCEFD /* PatientListParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F975DB2F062BCD006FCEFD /* PatientListParserTests.swift */; };
+		E2F975E62F062BCD006FCEFD /* PatientListParserUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F975E52F062BCD006FCEFD /* PatientListParserUITests.swift */; };
+		E2F975E82F062BCD006FCEFD /* PatientListParserUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F975E72F062BCD006FCEFD /* PatientListParserUITestsLaunchTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E2F975D82F062BCD006FCEFD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E2F975BE2F062BCB006FCEFD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E2F975C52F062BCB006FCEFD;
+			remoteInfo = PatientListParser;
+		};
+		E2F975E22F062BCD006FCEFD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E2F975BE2F062BCB006FCEFD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E2F975C52F062BCB006FCEFD;
+			remoteInfo = PatientListParser;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		E2F975C62F062BCB006FCEFD /* PatientListParser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PatientListParser.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E2F975C92F062BCB006FCEFD /* PatientListParserApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatientListParserApp.swift; sourceTree = "<group>"; };
+		E2F975CB2F062BCB006FCEFD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		E2F975CD2F062BCC006FCEFD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E2F975D02F062BCC006FCEFD /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		E2F975D22F062BCC006FCEFD /* PatientListParser.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PatientListParser.entitlements; sourceTree = "<group>"; };
+		E2F975D72F062BCD006FCEFD /* PatientListParserTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PatientListParserTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E2F975DB2F062BCD006FCEFD /* PatientListParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatientListParserTests.swift; sourceTree = "<group>"; };
+		E2F975E12F062BCD006FCEFD /* PatientListParserUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PatientListParserUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E2F975E52F062BCD006FCEFD /* PatientListParserUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatientListParserUITests.swift; sourceTree = "<group>"; };
+		E2F975E72F062BCD006FCEFD /* PatientListParserUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatientListParserUITestsLaunchTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E2F975C32F062BCB006FCEFD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E2F975D42F062BCD006FCEFD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E2F975DE2F062BCD006FCEFD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E2F975BD2F062BCB006FCEFD = {
+			isa = PBXGroup;
+			children = (
+				E2F975C82F062BCB006FCEFD /* PatientListParser */,
+				E2F975DA2F062BCD006FCEFD /* PatientListParserTests */,
+				E2F975E42F062BCD006FCEFD /* PatientListParserUITests */,
+				E2F975C72F062BCB006FCEFD /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E2F975C72F062BCB006FCEFD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E2F975C62F062BCB006FCEFD /* PatientListParser.app */,
+				E2F975D72F062BCD006FCEFD /* PatientListParserTests.xctest */,
+				E2F975E12F062BCD006FCEFD /* PatientListParserUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E2F975C82F062BCB006FCEFD /* PatientListParser */ = {
+			isa = PBXGroup;
+			children = (
+				E2F975C92F062BCB006FCEFD /* PatientListParserApp.swift */,
+				E2F975CB2F062BCB006FCEFD /* ContentView.swift */,
+				E2F975CD2F062BCC006FCEFD /* Assets.xcassets */,
+				E2F975D22F062BCC006FCEFD /* PatientListParser.entitlements */,
+				E2F975CF2F062BCC006FCEFD /* Preview Content */,
+			);
+			path = PatientListParser;
+			sourceTree = "<group>";
+		};
+		E2F975CF2F062BCC006FCEFD /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				E2F975D02F062BCC006FCEFD /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		E2F975DA2F062BCD006FCEFD /* PatientListParserTests */ = {
+			isa = PBXGroup;
+			children = (
+				E2F975DB2F062BCD006FCEFD /* PatientListParserTests.swift */,
+			);
+			path = PatientListParserTests;
+			sourceTree = "<group>";
+		};
+		E2F975E42F062BCD006FCEFD /* PatientListParserUITests */ = {
+			isa = PBXGroup;
+			children = (
+				E2F975E52F062BCD006FCEFD /* PatientListParserUITests.swift */,
+				E2F975E72F062BCD006FCEFD /* PatientListParserUITestsLaunchTests.swift */,
+			);
+			path = PatientListParserUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E2F975C52F062BCB006FCEFD /* PatientListParser */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E2F975EB2F062BCD006FCEFD /* Build configuration list for PBXNativeTarget "PatientListParser" */;
+			buildPhases = (
+				E2F975C22F062BCB006FCEFD /* Sources */,
+				E2F975C32F062BCB006FCEFD /* Frameworks */,
+				E2F975C42F062BCB006FCEFD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PatientListParser;
+			productName = PatientListParser;
+			productReference = E2F975C62F062BCB006FCEFD /* PatientListParser.app */;
+			productType = "com.apple.product-type.application";
+		};
+		E2F975D62F062BCD006FCEFD /* PatientListParserTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E2F975EE2F062BCD006FCEFD /* Build configuration list for PBXNativeTarget "PatientListParserTests" */;
+			buildPhases = (
+				E2F975D32F062BCD006FCEFD /* Sources */,
+				E2F975D42F062BCD006FCEFD /* Frameworks */,
+				E2F975D52F062BCD006FCEFD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E2F975D92F062BCD006FCEFD /* PBXTargetDependency */,
+			);
+			name = PatientListParserTests;
+			productName = PatientListParserTests;
+			productReference = E2F975D72F062BCD006FCEFD /* PatientListParserTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		E2F975E02F062BCD006FCEFD /* PatientListParserUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E2F975F12F062BCD006FCEFD /* Build configuration list for PBXNativeTarget "PatientListParserUITests" */;
+			buildPhases = (
+				E2F975DD2F062BCD006FCEFD /* Sources */,
+				E2F975DE2F062BCD006FCEFD /* Frameworks */,
+				E2F975DF2F062BCD006FCEFD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E2F975E32F062BCD006FCEFD /* PBXTargetDependency */,
+			);
+			name = PatientListParserUITests;
+			productName = PatientListParserUITests;
+			productReference = E2F975E12F062BCD006FCEFD /* PatientListParserUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E2F975BE2F062BCB006FCEFD /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1430;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					E2F975C52F062BCB006FCEFD = {
+						CreatedOnToolsVersion = 14.3.1;
+					};
+					E2F975D62F062BCD006FCEFD = {
+						CreatedOnToolsVersion = 14.3.1;
+						TestTargetID = E2F975C52F062BCB006FCEFD;
+					};
+					E2F975E02F062BCD006FCEFD = {
+						CreatedOnToolsVersion = 14.3.1;
+						TestTargetID = E2F975C52F062BCB006FCEFD;
+					};
+				};
+			};
+			buildConfigurationList = E2F975C12F062BCB006FCEFD /* Build configuration list for PBXProject "PatientListParser" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = E2F975BD2F062BCB006FCEFD;
+			productRefGroup = E2F975C72F062BCB006FCEFD /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E2F975C52F062BCB006FCEFD /* PatientListParser */,
+				E2F975D62F062BCD006FCEFD /* PatientListParserTests */,
+				E2F975E02F062BCD006FCEFD /* PatientListParserUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E2F975C42F062BCB006FCEFD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E2F975D12F062BCC006FCEFD /* Preview Assets.xcassets in Resources */,
+				E2F975CE2F062BCC006FCEFD /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E2F975D52F062BCD006FCEFD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E2F975DF2F062BCD006FCEFD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E2F975C22F062BCB006FCEFD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E2F975CC2F062BCB006FCEFD /* ContentView.swift in Sources */,
+				E2F975CA2F062BCB006FCEFD /* PatientListParserApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E2F975D32F062BCD006FCEFD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E2F975DC2F062BCD006FCEFD /* PatientListParserTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E2F975DD2F062BCD006FCEFD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E2F975E62F062BCD006FCEFD /* PatientListParserUITests.swift in Sources */,
+				E2F975E82F062BCD006FCEFD /* PatientListParserUITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E2F975D92F062BCD006FCEFD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E2F975C52F062BCB006FCEFD /* PatientListParser */;
+			targetProxy = E2F975D82F062BCD006FCEFD /* PBXContainerItemProxy */;
+		};
+		E2F975E32F062BCD006FCEFD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E2F975C52F062BCB006FCEFD /* PatientListParser */;
+			targetProxy = E2F975E22F062BCD006FCEFD /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		E2F975E92F062BCD006FCEFD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.3;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		E2F975EA2F062BCD006FCEFD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		E2F975EC2F062BCD006FCEFD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = PatientListParser/PatientListParser.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"PatientListParser/Preview Content\"";
+				DEVELOPMENT_TEAM = HX5SS4FR63;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ahmedbq.PatientListParser;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		E2F975ED2F062BCD006FCEFD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = PatientListParser/PatientListParser.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"PatientListParser/Preview Content\"";
+				DEVELOPMENT_TEAM = HX5SS4FR63;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ahmedbq.PatientListParser;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		E2F975EF2F062BCD006FCEFD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HX5SS4FR63;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.3;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ahmedbq.PatientListParserTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PatientListParser.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/PatientListParser";
+			};
+			name = Debug;
+		};
+		E2F975F02F062BCD006FCEFD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HX5SS4FR63;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.3;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ahmedbq.PatientListParserTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PatientListParser.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/PatientListParser";
+			};
+			name = Release;
+		};
+		E2F975F22F062BCD006FCEFD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HX5SS4FR63;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ahmedbq.PatientListParserUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = PatientListParser;
+			};
+			name = Debug;
+		};
+		E2F975F32F062BCD006FCEFD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HX5SS4FR63;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ahmedbq.PatientListParserUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = PatientListParser;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E2F975C12F062BCB006FCEFD /* Build configuration list for PBXProject "PatientListParser" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E2F975E92F062BCD006FCEFD /* Debug */,
+				E2F975EA2F062BCD006FCEFD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E2F975EB2F062BCD006FCEFD /* Build configuration list for PBXNativeTarget "PatientListParser" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E2F975EC2F062BCD006FCEFD /* Debug */,
+				E2F975ED2F062BCD006FCEFD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E2F975EE2F062BCD006FCEFD /* Build configuration list for PBXNativeTarget "PatientListParserTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E2F975EF2F062BCD006FCEFD /* Debug */,
+				E2F975F02F062BCD006FCEFD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E2F975F12F062BCD006FCEFD /* Build configuration list for PBXNativeTarget "PatientListParserUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E2F975F22F062BCD006FCEFD /* Debug */,
+				E2F975F32F062BCD006FCEFD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E2F975BE2F062BCB006FCEFD /* Project object */;
+}
